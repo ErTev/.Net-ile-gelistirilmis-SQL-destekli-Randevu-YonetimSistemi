@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "Ana Sayfa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <!-- Harici kütüphaneler -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <!-- Özel sayfa CSS'i -->
+    <link rel="stylesheet" href="~/css/custom-home.css" />
+}
+
+<!-- Üst Banner -->
+<div class="hero-banner">
+    <img src="~/img/Diş Kliniği.jpeg" alt="Diş Kliniği" class="hover-shadow" />
+    <h1 class="animate__animated animate__fadeInDown">Diş Kliniğimize Hoş Geldiniz</h1>
+    <p class="lead animate__animated animate__fadeInUp">Alanında uzman hekimlerle sağlıklı gülüşler sunuyoruz.</p>
+    <a href="/SickPerson/RandevuAl" class="btn btn-light btn-lg shadow">Hemen Randevu Al</a>
+</div>
+
+<!-- Hakkımızda -->
+<div class="container mt-5">
+    <h2 class="section-title text-center">Hakkımızda</h2>
+    <p class="text-center">
+        Kliniğimiz, modern teknolojiyi ve tecrübeli kadrosunu bir araya getirerek hastalarımıza en iyi hizmeti sunmayı hedeflemektedir.
+        Steril çalışma ortamımız, güler yüzlü personelimiz ve güvenilir tedavi süreçlerimizle yanınızdayız.
+    </p>
+</div>
+
+<hr class="my-5" />
+
+<!-- Randevu Al -->
+<div class="container text-center">
+    <h2 class="section-title">Randevu Al</h2>
+    <p>Randevu almak için sistemimize giriş yapmanıza gerek yoktur. Aşağıdaki butona tıklayarak randevu oluşturma formuna ulaşabilirsiniz.</p>
+    <a href="/SickPerson/RandevuAl" class="btn btn-success btn-lg">Randevu Sayfasına Git</a>
+</div>
+
+<hr class="my-5" />
+
+<!-- İletişim -->
+<div class="container">
+    <h2 class="section-title text-center">İletişim</h2>
+    <div class="row text-center">
+        <div class="col-md-4">
+            <i class="fas fa-map-marker-alt fa-2x contact-icon"></i>
+            <p>Sağlık Mah. No: 123, Bitlis</p>
+        </div>
+        <div class="col-md-4">
+            <i class="fas fa-phone fa-2x contact-icon"></i>
+            <p>(0212) 123 45 67</p>
+        </div>
+        <div class="col-md-4">
+            <i class="fas fa-envelope fa-2x contact-icon"></i>
+            <p>mhfedisklinigi@gmail.com</p>
+        </div>
+    </div>
+</div>
+

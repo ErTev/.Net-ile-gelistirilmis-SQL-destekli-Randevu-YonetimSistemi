@@ -1,0 +1,48 @@
+﻿@*
+    Admin Giriş Sayfasıdır Adminin mailini ve şifresinin girilmesi için oluşturuldu
+*@
+
+
+@model Admin
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel Login</title>
+    <link rel="stylesheet" href="/css/Style.css" />
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="contact-form">
+            <img class="admin-img" width="150" height="150" src="/img/AdminLogo.jpg" alt="Admin Logo" />
+            <h4>Admin Login</h4>
+            <form asp-action="Index" method="post">
+                <div class="txtb">
+                    Mail Adresi : <input type="email" asp-for="Email" placeholder="Mail" />
+                </div>
+
+                <div class="txtb">
+                    Şifre : <input type="password" asp-for="Sifre" placeholder="Password" />
+                </div>
+                <br />
+
+                <input type="submit" class="logbtn" value="Giriş" />
+
+                <div>
+                    @if (ViewBag.Hata != null)//Form dısında yazınca gorunmuyor
+                    {
+                        <div class="text-danger">@ViewBag.Hata</div>
+                    }
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,187 @@
+﻿@model string
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/custom.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+}
+
+<div class="verification-wrapper d-flex align-items-center justify-content-center">
+    <div class="verification-card">
+        <div class="text-center mb-4">
+            <i class="bi bi-shield-lock-fill icon-header"></i>
+            <h4 class="mt-2">Doğrulama Kodu</h4>
+        </div>
+
+        <form action="dogrulama" method="post">
+            <div class="mb-3">
+               @*  <label for="kod" class="form-label">Doğrulama kodu:</label> *@
+                <input type="text"
+                       id="kod"
+                       name="kod"
+                       maxlength="4"
+                       minlength="4"
+                       pattern="\d{4}"
+                       inputmode="numeric"
+                       autocomplete="one-time-code"
+                       required
+                       class="form-control text-center fw-bold"
+                       title="Lütfen 4 haneli bir sayı girin" />
+            </div>
+
+            <div class="text-center mb-3">
+                <div class="timer-box">
+                    <i class="bi bi-clock-history me-1"></i>
+                    Kalan süre: <span id="timer" class="fw-bold text-danger">01:30</span>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary submit-btn">
+                    <i class="bi bi-send-fill me-1"></i> Gönder
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        window.onload = function () {
+            let time = 90;
+            const timer = document.getElementById("timer");
+
+            const countdown = setInterval(() => {
+                const min = String(Math.floor(time / 60)).padStart(2, "0");
+                const sec = String(time % 60).padStart(2, "0");
+                timer.textContent = `${min}:${sec}`;
+
+                if (time <= 0) {
+                    clearInterval(countdown);
+                    window.location.href = "/SickPerson/PersonSave";
+                }
+
+                time--;
+            }, 1000);
+        };
+    </script>
+}
+
+
+
+@* @{
+    Layout=null;
+}
+@model string
+
+<!-- CSS Bağlantısı -->
+<link rel="stylesheet" href="~/css/custom.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+<!-- İçerik -->
+<div class="verification-card">
+    <div class="text-center mb-4">
+        <i class="bi bi-shield-lock-fill icon-header"></i>
+        <h4 class="mt-2">Doğrulama Kodu</h4>
+    </div>
+
+    <form action="dogrulama" method="post">
+        <div class="mb-3">
+            <label for="kod" class="form-label">Doğrulama kodu:</label>
+            <input type="text"
+                   id="kod"
+                   name="kod"
+                   maxlength="4"
+                   minlength="4"
+                   pattern="\d{4}"
+                   required
+                   class="form-control text-center fw-bold"
+                   title="Lütfen 4 haneli bir sayı girin" />
+        </div>
+
+        <div class="text-center mb-3">
+            <div class="timer-box">
+                <i class="bi bi-clock-history me-1"></i>
+                Kalan süre: <span id="timer" class="fw-bold text-danger">01:30</span>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary submit-btn">
+                <i class="bi bi-send-fill me-1"></i> Gönder
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- Sayaç Scripti -->
+<script>
+    window.onload = function () {
+        let time = 90;
+        const timer = document.getElementById("timer");
+
+        const countdown = setInterval(() => {
+            const min = String(Math.floor(time / 60)).padStart(2, "0");
+            const sec = String(time % 60).padStart(2, "0");
+            timer.textContent = `${min}:${sec}`;
+
+            if (time <= 0) {
+                clearInterval(countdown);
+                window.location.href = "/SickPerson/PersonSave";
+            }
+
+            time--;
+        }, 1000);
+    };
+</script>
+ *@
+
+@* @model string
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <form action="dogrulama" method="post" class="p-4 border rounded shadow bg-white" style="width: 100%; max-width: 400px;">
+        <h4 class="text-center mb-4">Doğrulama Kodu</h4>
+
+        <div class="mb-3">
+            <label for="kod" class="form-label">Doğrulama kodu:</label>
+            <input type="text"
+                   id="kod"
+                   name="kod"
+                   maxlength="4"
+                   minlength="4"
+                   pattern="\d{4}"
+                   required
+                   class="form-control text-center fw-bold"
+                   title="Lütfen 4 haneli bir sayı girin" />
+        </div>
+
+        <div class="text-center mb-3">
+            <span>Kalan süre: <span id="timer" class="fw-bold text-danger">01:30</span></span>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary px-4">Gönder</button>
+        </div>
+    </form>
+</div>
+
+<!-- Sayaç ve yönlendirme scripti -->
+<script>
+    window.onload = function () {
+        let time = 90;
+        const timer = document.getElementById("timer");
+
+        const countdown = setInterval(() => {
+            const min = String(Math.floor(time / 60)).padStart(2, "0");
+            const sec = String(time % 60).padStart(2, "0");
+            timer.textContent = `${min}:${sec}`;
+
+            if (time <= 0) {
+                clearInterval(countdown);
+                window.location.href = "/SickPerson/PersonSave";
+            }
+
+            time--;
+        }, 1000);
+    };
+</script>
+ *@

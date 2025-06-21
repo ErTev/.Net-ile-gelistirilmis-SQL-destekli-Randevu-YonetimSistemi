@@ -1,0 +1,40 @@
+﻿@model List<RandevuYonetimSistemi.Models.Employe>
+@{
+    ViewData["Title"] = "Çalışan Listesi";
+}
+
+<h2>Çalışan Listesi</h2>
+
+<table class="table table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>Adı</th>
+            <th>Soyadı</th>
+            <th>TC</th>
+            <th>Email</th>
+            <th>Telefon</th>
+            <th>Ünvanı</th>
+            <th>Çalışma Durumu</th>
+            <th>İşlemler</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employe in Model)
+        {
+            <tr>
+                <td>@employe.Adi</td>
+                <td>@employe.Soyadi</td>
+                <td>@employe.Tc</td>
+                <td>@employe.Email</td>
+                <td>@employe.Telefon</td>
+                <td>@employe.Unvanı</td>
+                <td>@employe.Aktiflik</td>
+                <td>
+                    <a asp-action="Güncelle" asp-route-id="@employe.Id" class="btn btn-warning btn-sm">Düzenle</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-action="ÇalışanEkle" class="btn btn-success">Yeni Çalışan Ekle</a>

@@ -1,0 +1,39 @@
+﻿@model RandevuYonetimSistemi.Models.Employe
+
+@{
+    ViewData["Title"] = "Çalışan Sil";
+}
+
+<h2>Sil</h2>
+
+<h3>Bu çalışanı silmek istediğinize emin misiniz?</h3>
+
+<div>
+    <h4>Çalışan</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Adı</dt>
+        <dd class="col-sm-10">@Model.Adi</dd>
+
+        <dt class="col-sm-2">Soyadı</dt>
+        <dd class="col-sm-10">@Model.Soyadi</dd>
+
+        <dt class="col-sm-2">TC</dt>
+        <dd class="col-sm-10">@Model.Tc</dd>
+
+        <dt class="col-sm-2">Email</dt>
+        <dd class="col-sm-10">@Model.Email</dd>
+
+        <dt class="col-sm-2">Telefon</dt>
+        <dd class="col-sm-10">@Model.Telefon</dd>
+
+        <dt class="col-sm-2">Ünvan</dt>
+        <dd class="col-sm-10">@Model.Unvanı</dd>
+    </dl>
+
+    <form asp-action="Sil" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Sil</button>
+        <a asp-action="Görüntüle" class="btn btn-secondary">İptal</a>
+    </form>
+</div>

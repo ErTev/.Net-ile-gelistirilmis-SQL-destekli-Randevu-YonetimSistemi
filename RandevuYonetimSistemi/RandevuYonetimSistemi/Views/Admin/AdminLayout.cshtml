@@ -1,0 +1,123 @@
+﻿@*
+	Admin Panelindeki Listeleme ve Yönlendirme işlemlerini yapar aynı zamanda Çalışan, Doktor ve Admin düzenleme işlemlerini de yapar.
+*@
+
+ @model RandevuYonetimSistemi.Models.AdminPanelViewModel
+@{
+	Layout = "_AdminLayout";
+}
+
+<br />
+
+@if (ViewBag.Hata != null)
+{
+	<p style="color:red;">@ViewBag.Hata</p>
+}
+
+<!-- Admin Listesi -->
+<section>
+	<div class="d-flex justify-content-between align-items-center mb-2">
+		<h3>Admin Listesi</h3>
+	</div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Email</th>
+				<th>Şifre</th>
+				<th>İşlem</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var admin in Model.Adminler)
+			{
+				<tr>
+					<td>@admin.Id</td>
+					<td>@admin.Email</td>
+					<td>@admin.Sifre</td>
+					<td>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</section>
+<br />
+<hr style="border: none; border-top: 1px solid blue;" />
+<br />
+<!-- Çalışan Listesi -->
+<section>
+	<div class="d-flex justify-content-between align-items-center mb-2">
+		<h3>Çalışan Listesi</h3>
+		<a asp-action="ÇalışanEkle" asp-controller="Employe" class="btn btn-success">Çalışan Ekle</a>
+	</div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Ad</th>
+				<th>Soyad</th>
+				<th>Unvan</th>
+				<th>Email</th>
+				<th>Şifre</th>
+				<th>İşlem</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var calisan in Model.Calisanlar)
+			{
+				<tr>
+					<td>@calisan.Id</td>
+					<td>@calisan.Adi</td>
+					<td>@calisan.Soyadi</td>
+					<td>@calisan.Unvanı</td>
+					<td>@calisan.Email</td>
+					<td>@calisan.Sifre</td>
+					<td>
+						<a asp-action="Güncelle" asp-controller="Employe" asp-route-id="@calisan.Id" class="btn btn-primary">Güncelle</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</section>
+<br />
+<hr style="border: none; border-top: 1px solid blue;" />
+<br />
+<!-- Doktor Listesi -->
+<section>
+	<div class="d-flex justify-content-between align-items-center mb-2">
+		<h3>Doktor Listesi</h3>
+		<a asp-action="DoktorEkle" asp-controller="Doctor" class="btn btn-success">Doktor Ekle</a>
+	</div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Adı</th>
+				<th>Soyadı</th>
+				<th>Unvan</th>
+				<th>Email</th>
+				<th>Şifre</th>
+				<th>İşlem</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var doktor in Model.Doktorlar)
+			{
+				<tr>
+					<td>@doktor.Id</td>
+					<td>@doktor.Adi</td>
+					<td>@doktor.Soyadi</td>
+					<td>@doktor.Unvan</td>
+					<td>@doktor.Email</td>
+					<td>@doktor.Sifre</td>
+					<td>
+						<a asp-action="Güncelle" asp-controller="Doctor" asp-route-id="@doktor.Id" class="btn btn-primary">Güncelle</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</section>
+

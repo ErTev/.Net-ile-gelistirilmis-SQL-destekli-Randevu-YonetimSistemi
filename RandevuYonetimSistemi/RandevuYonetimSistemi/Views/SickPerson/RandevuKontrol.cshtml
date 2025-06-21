@@ -1,0 +1,99 @@
+﻿@{
+    ViewData["Title"] = "Randevu Görüntüle";
+}
+
+<style>
+    /* Sayfa genel tasarımı */
+    body {
+        background-color: #f0f4f8;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    /* Form alanları */
+    .form-container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 30px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+        .form-container:hover {
+            box-shadow: 0 8px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .form-container label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-container input {
+            font-size: 1rem;
+            padding: 12px 20px;
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin-top: 8px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+            .form-container input:focus {
+                border-color: #007bff;
+                outline: none;
+                box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+            }
+
+        .form-container button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+            .form-container button:hover {
+                background-color: #0056b3;
+            }
+
+    /* Hata mesajı */
+    .alert {
+        font-size: 1rem;
+        padding: 15px;
+        margin-top: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+</style>
+
+<div class="form-container">
+    <form asp-action="RandevuGörüntüle" method="post">
+        <div class="form-group">
+            <label for="tc">TC Kimlik No:</label>
+            <input type="text" name="tc" id="tc" class="form-control" placeholder="TC Kimlik No girin" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-2">Randevuları Görüntüle</button>
+    </form>
+
+    <br />
+
+    @if (ViewBag.Hata != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.Hata
+        </div>
+    }
+</div>
+

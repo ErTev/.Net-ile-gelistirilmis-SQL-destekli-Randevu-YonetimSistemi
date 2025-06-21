@@ -1,0 +1,36 @@
+﻿@{
+    var randevular = ViewBag.Randevular as List<Appointment>;
+    var hastaAdi = ViewBag.HastaAdi;
+}
+
+<h2>@hastaAdi - Randevular</h2>
+@if(randevular.Count != 0)
+{
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Randevu Tarihi</th>
+            <th>Giriş Saati</th>
+            <th>Doktor</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var randevu in randevular)
+        {
+            <tr>
+                <td>@randevu.RandevuTarihi.ToShortDateString()</td>
+                <td>@randevu.RandevuTarihi.ToShortTimeString()</td>
+                <td>@randevu.Doctor.Adi @randevu.Doctor.Soyadi</td>
+            </tr>
+        }
+    </tbody>
+</table>
+}
+else
+{
+    <h3>Randevunuz Bulunmamaktadır...</h3>
+    <a asp-action="PersonSave" class="btn btn-success">Randevu için tıklayınız!</a>
+}
+

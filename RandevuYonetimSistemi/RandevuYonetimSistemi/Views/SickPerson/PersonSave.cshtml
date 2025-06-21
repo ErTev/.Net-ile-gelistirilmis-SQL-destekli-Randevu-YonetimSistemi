@@ -1,0 +1,171 @@
+﻿@model SickPerson
+
+<!-- Stil sadece bu sayfaya özgü olacak, global navbar'ı etkilemeyecek -->
+<style>
+    /* Sayfanın genel düzeni */
+    body {
+        background-color: #f4f7fa;
+        background-image: url('~/images/left-dental-image.jpg'), url('~/images/right-appointment-image.jpg');
+        background-position: left center, right center;
+        background-repeat: no-repeat;
+        background-size: 30% auto, 30% auto;
+        padding: 0;
+        margin: 0;
+    }
+
+    /* Form tasarımını etkileyen stil */
+    .form-wrapper {
+        max-width: 600px; /* Formu genişletiyoruz */
+        margin: 40px auto;
+        background-color: #ffffff;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+        font-family: 'Segoe UI', sans-serif;
+        position: relative;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .form-control {
+        font-size: 0.95rem;
+        padding: 0.5rem;
+        width: 100%; /* Form input alanını %100 genişlikte yapıyoruz */
+    }
+
+    .btn-primary {
+        width: 100%;
+        padding: 0.7rem;
+        font-size: 1.1rem;
+        border-radius: 8px;
+        margin-top: 15px;
+    }
+
+    .text-danger {
+        font-size: 0.75rem;
+    }
+
+    h4.form-title {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #0d6efd;
+    }
+
+    /* Görsellerin sayfa düzenini bozmaması için */
+    .background-images {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1; /* Sayfanın altına yerleştiriliyor */
+        pointer-events: none; /* Görsellere tıklanamaz yapıyoruz */
+    }
+
+        .background-images img {
+            width: 100%;
+            height: auto;
+        }
+</style>
+
+<!-- Sayfanın sağ ve sol tarafında diş ve randevu ile ilgili görseller olacak alan -->
+<div class="background-images">
+    <img src="~/images/left-dental-image.jpg" alt="Diş Temalı Görsel">
+    <img src="~/images/right-appointment-image.jpg" alt="Randevu Temalı Görsel">
+</div>
+
+<!-- Form İçeriği -->
+<div class="form-wrapper">
+    <h4 class="form-title">Kişi Bilgileri</h4>
+
+    <form asp-action="PersonSave" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Adi" class="control-label">Adı :</label>
+            <input asp-for="Adi" class="form-control" />
+            <span asp-validation-for="Adi" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Soyadi" class="control-label">Soyadı :</label>
+            <input asp-for="Soyadi" class="form-control" />
+            <span asp-validation-for="Soyadi" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Tc" class="control-label">T.C :</label>
+            <input asp-for="Tc" class="form-control" />
+            <span asp-validation-for="Tc" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Email" class="control-label">Email :</label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Telefon" class="control-label">Telefon :</label>
+            <input asp-for="Telefon" class="form-control" />
+            <span asp-validation-for="Telefon" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+
+
+@* @model SickPerson
+
+
+<form asp-action="PersonSave" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="Adi" class="control-label">Adı :</label>
+        <input asp-for="Adi" class="form-control" />
+        <span asp-validation-for="Adi" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Soyadi" class="control-label">Soyadı :</label>
+        <input asp-for="Soyadi" class="form-control" />
+        <span asp-validation-for="Soyadi" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Tc" class="control-label">T.C :</label>
+        <input asp-for="Tc" class="form-control" />
+        <span asp-validation-for="Tc" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email" class="control-label">Email :</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Telefon" class="control-label">Telefon :</label>
+        <input asp-for="Telefon" class="form-control" />
+        <span asp-validation-for="Telefon" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+ *@

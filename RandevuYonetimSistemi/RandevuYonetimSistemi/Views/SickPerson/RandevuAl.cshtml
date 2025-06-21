@@ -1,0 +1,305 @@
+﻿@* 
+    Randevu alınır ajax yapısı ile kişi,doktor ve tarih seçimine göre saatler güncellenir.
+*@
+@model Appointment
+@{
+    var Doctorlar = ViewBag.Doctorlar as List<Doctor>;
+    var RandevuSaatleri = ViewBag.RandevuSaatleri as List<string>;
+}
+
+<style>
+    /* Sayfa genel tasarımı */
+    body {
+        background-color: #f4f7fb;
+        font-family: 'Arial', sans-serif;
+    }
+
+    /* Form Container */
+    .form-container {
+        background-color: #fff;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        max-width: 800px;
+        margin: 50px auto;
+        transition: all 0.3s ease;
+    }
+
+        .form-container:hover {
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Form input alanları */
+        .form-container label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-container select, .form-container input[type="date"] {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-top: 8px;
+            transition: border-color 0.3s ease;
+        }
+
+            .form-container select:focus, .form-container input[type="date"]:focus {
+                border-color: #007bff;
+                outline: none;
+                box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+            }
+
+        /* Saat Seçimi */
+        .form-container select {
+            background-color: #f9f9f9;
+        }
+
+            .form-container select option {
+                background-color: white;
+            }
+
+        .form-container button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .form-container button:hover {
+                background-color: #0056b3;
+            }
+
+    /* Hata mesajları */
+    .text-danger {
+        font-size: 0.9rem;
+        color: #e74c3c;
+        margin-top: 5px;
+    }
+</style>
+
+<div class="form-container">
+    <form asp-action="RandevuAl" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <!-- Doktor Seçimi -->
+        <div class="form-group">
+            <label for="doctorSelect">Doktor Seçiniz</label>
+            <select asp-for="DoctorId" id="doctorSelect" class="form-control">
+                <option value="">-- Doktor Seçiniz --</option>
+                @foreach (var item in Doctorlar)
+                {
+                    <option value="@item.Id">@($"{item.Adi} {item.Soyadi}")</option>
+                }
+            </select>
+            <span asp-validation-for="DoctorId" class="text-danger"></span>
+        </div>
+
+        <br />
+
+        <!-- Randevu Tarihi -->
+        <div class="form-group">
+            <label for="randevuTarihi">Randevu Tarihi</label>
+            <input type="date" id="randevuTarihi" class="form-control" />
+            <span asp-validation-for="RandevuTarihi" class="text-danger"></span>
+        </div>
+
+        <br />
+
+        <!-- Randevu Saat Seçimi -->
+        <div class="form-group">
+            <label>Randevu Saatleri</label>
+            <select id="randevuSaatSelect" class="form-control">
+                <option value="">-- Saat Seçiniz --</option>
+                @if (RandevuSaatleri != null)
+                {
+                    foreach (var saat in RandevuSaatleri)
+                    {
+                        <option value="@saat">@saat</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <br />
+
+        <!-- Gizli Tarih ve Saat -->
+        <input type="hidden" asp-for="RandevuTarihi" id="RandevuTarihi" />
+        <span asp-validation-for="RandevuTarihi" class="text-danger"></span>
+
+        <!-- Gönder Butonu -->
+        <button type="submit" class="btn btn-primary">Randevu Al</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Tarih ve saat bilgisini birleştirip gizli alana gönderiyoruz
+        function updateRandevuTarihi() {
+            var tarih = $('#randevuTarihi').val();         // yyyy-MM-dd
+            var saat = $('#randevuSaatSelect').val();      // HH:mm
+
+            if (tarih && saat) {
+                var fullDateTime = tarih + 'T' + saat;     // yyyy-MM-ddTHH:mm
+                $('#RandevuTarihi').val(fullDateTime);
+            }
+        }
+
+        $(document).ready(function () {
+            // Doktor seçimi ve tarih değişikliği ile saatleri yeniliyoruz
+            $('#doctorSelect, #randevuTarihi').change(function () {
+                var doctorId = $('#doctorSelect').val();
+                var randevuTarihi = $('#randevuTarihi').val();
+
+                if (doctorId && randevuTarihi) {
+                    $.ajax({
+                        url: '@Url.Action("GetAvailableTimes", "SickPerson")',
+                        type: 'POST',
+                        data: {
+                            doctorId: doctorId,
+                            randevuTarihi: randevuTarihi
+                        },
+                        success: function (data) {
+                            $('#randevuSaatSelect').empty();
+                            if (data.length > 0) {
+                                $('#randevuSaatSelect').append('<option value="">-- Saat Seçiniz --</option>');
+                                $.each(data, function (index, value) {
+                                    $('#randevuSaatSelect').append('<option value="' + value + '">' + value + '</option>');
+                                });
+                            } else {
+                                $('#randevuSaatSelect').append('<option disabled>Uygun saat yok</option>');
+                            }
+                        },
+                        error: function () {
+                            alert('Saatler alınırken bir hata oluştu.');
+                        }
+                    });
+                }
+            });
+
+            // Saat seçimi yapıldığında gizli alana tarih ve saat birleşimini yazıyoruz
+            $('#randevuSaatSelect').change(function () {
+                updateRandevuTarihi();
+            });
+        });
+    </script>
+}
+
+
+@* @model Appointment
+
+@{
+    var Doctorlar = ViewBag.Doctorlar as List<Doctor>;
+    var RandevuSaatleri = ViewBag.RandevuSaatleri as List<string>;
+}
+
+<form asp-action="RandevuAl" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label for="doctorSelect">Doktor Seçiniz</label>
+        <select asp-for="DoctorId" id="doctorSelect" class="form-control">
+            <option value="">-- Doktor Seçiniz --</option>
+            @foreach (var item in Doctorlar)
+            {
+                <option value="@item.Id">@($"{item.Adi} {item.Soyadi}")</option>
+            }
+        </select>
+        <span asp-validation-for="DoctorId" class="text-danger"></span>
+    </div>
+
+
+    <br />
+
+    <div class="form-group">
+        <label for="randevuTarihi">Randevu Tarihi</label>
+        <input type="date" id="randevuTarihi" class="form-control" />
+        <span asp-validation-for="RandevuTarihi" class="text-danger"></span>
+    </div>
+
+    <br />
+
+    <div class="form-group">
+        <label>Randevu Saatleri</label>
+        <select id="randevuSaatSelect" class="form-control">
+            <option value="">-- Saat Seçiniz --</option>
+            @if (RandevuSaatleri != null)
+            {
+                foreach (var saat in RandevuSaatleri)
+                {
+                    <option value="@saat">@saat</option>
+                }
+            }
+        </select>
+    </div>
+
+    <br />
+
+    <!-- Buraya birleşik tarih+saat gönderilecek -->
+    <input type="hidden" asp-for="RandevuTarihi" id="RandevuTarihi" />
+    <span asp-validation-for="RandevuTarihi" class="text-danger"></span>
+
+    <button type="submit" class="btn btn-primary">Randevu Al</button>
+</form>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Tarih ve saat bilgisini birleştirip gizli alana gönderiyoruz
+        function updateRandevuTarihi() {
+            var tarih = $('#randevuTarihi').val();         // yyyy-MM-dd
+            var saat = $('#randevuSaatSelect').val();      // HH:mm
+
+            if (tarih && saat) {
+                var fullDateTime = tarih + 'T' + saat;     // yyyy-MM-ddTHH:mm
+                $('#RandevuTarihi').val(fullDateTime);
+            }
+        }
+
+        $(document).ready(function () {
+            // Doktor seçimi ve tarih değişikliği ile saatleri yeniliyoruz
+            $('#doctorSelect, #randevuTarihi').change(function () {
+                var doctorId = $('#doctorSelect').val();
+                var randevuTarihi = $('#randevuTarihi').val();
+
+                if (doctorId && randevuTarihi) {
+                    $.ajax({
+                        url: '@Url.Action("GetAvailableTimes", "SickPerson")',
+                        type: 'POST',
+                        data: {
+                            doctorId: doctorId,
+                            randevuTarihi: randevuTarihi
+                        },
+                        success: function (data) {
+                            $('#randevuSaatSelect').empty();
+                            if (data.length > 0) {
+                                $('#randevuSaatSelect').append('<option value="">-- Saat Seçiniz --</option>');
+                                $.each(data, function (index, value) {
+                                    $('#randevuSaatSelect').append('<option value="' + value + '">' + value + '</option>');
+                                });
+                            } else {
+                                $('#randevuSaatSelect').append('<option disabled>Uygun saat yok</option>');
+                            }
+                        },
+                        error: function () {
+                            alert('Saatler alınırken bir hata oluştu.');
+                        }
+                    });
+                }
+            });
+
+            // Saat seçimi yapıldığında gizli alana tarih ve saat birleşimini yazıyoruz
+            $('#randevuSaatSelect').change(function () {
+                updateRandevuTarihi();
+            });
+        });
+    </script>
+}
+ 
+  *@

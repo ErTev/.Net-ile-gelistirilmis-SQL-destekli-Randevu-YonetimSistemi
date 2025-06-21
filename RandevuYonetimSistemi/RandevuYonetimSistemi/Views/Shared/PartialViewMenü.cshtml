@@ -1,0 +1,31 @@
+﻿<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom shadow mb-3">
+    <div class="container-fluid">
+        <a class="navbar-brand text-white" asp-controller="Home" asp-action="Index">Anasayfa</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-white" asp-controller="SickPerson" asp-action="PersonSave">Kayıt</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" asp-controller="SickPerson" asp-action="RandevuKontrol">Randevularım</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" asp-controller="PatientRow" asp-action="SıraGörüntüle">Muayene Sırası</a>
+                </li>
+            </ul>
+
+            <!-- Admin Girişi en sağda -->
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-white" asp-controller="Admin" asp-action="Index">Admin Girişi</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

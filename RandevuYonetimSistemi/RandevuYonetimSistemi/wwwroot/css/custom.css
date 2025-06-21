@@ -1,0 +1,104 @@
+﻿/* Navbar'dan dolayı sayfanın üstünde boşluk bırak */
+.verification-wrapper {
+    min-height: calc(100vh - 80px); /* 80px navbar yüksekliği örnek */
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+}
+
+/* Var olan kart tasarımı korunur */
+.verification-card {
+    animation: fadeIn 1s ease-in-out;
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    padding: 2rem;
+    width: 100%;
+    max-width: 400px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-label::after {
+    content: " 🔒";
+}
+
+.timer-box {
+    background-color: #f8f9fa;
+    border-radius: .5rem;
+    padding: .5rem 1rem;
+    display: inline-block;
+}
+
+.submit-btn {
+    width: 100%;
+}
+
+.icon-header {
+    font-size: 2.5rem;
+    color: #0d6efd;
+}
+
+/*body {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.verification-card {
+    animation: fadeIn 1s ease-in-out;
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    padding: 2rem;
+    width: 100%;
+    max-width: 400px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-label::after {
+    content: " 🔒";
+}
+
+.timer-box {
+    background-color: #f8f9fa;
+    border-radius: .5rem;
+    padding: .5rem 1rem;
+    display: inline-block;
+}
+
+.submit-btn {
+    width: 100%;
+}
+
+.icon-header {
+    font-size: 2.5rem;
+    color: #0d6efd;
+}
+*/

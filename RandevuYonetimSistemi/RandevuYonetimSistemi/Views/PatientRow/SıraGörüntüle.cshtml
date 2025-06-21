@@ -1,0 +1,170 @@
+﻿@model List<List<RandevuYonetimSistemi.Models.Appointment>>
+
+@{
+    ViewData["Title"] = "Muayene Sırası";
+    var simdi = DateTime.Now;
+}
+
+<!-- Sayfa başlığı görselleştirilmiş -->
+<div class="text-center bg-primary text-white py-4 mb-4 rounded shadow">
+    <h1 class="display-5"><i class="bi bi-clipboard2-pulse-fill me-2"></i>Muayene Sırası</h1>
+</div>
+
+<div id="randevuTabloları" class="container">
+    @if (Model != null && Model.Any())
+    {
+        foreach (var randevular in Model)
+        {
+            var doktor = randevular.FirstOrDefault()?.Doctor;
+            if (doktor == null) { continue; }
+
+            <div class="card mb-4 shadow">
+                <div class="card-header bg-info text-white fw-bold">
+                    Doktor: @doktor.Adi @doktor.Soyadi
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Hasta Adı</th>
+                                <th>Randevu Saati</th>
+                                <th>Durum</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var randevu in randevular)
+                            {
+                                var girisZamani = randevu.RandevuTarihi;
+                                var cikisZamani = girisZamani.AddMinutes(20);
+                                var durum = "Sıradaki";  // Varsayılan durum
+
+                                // Eğer randevu şu anki saat ile eşleşiyorsa "Muayenede" olarak göster
+                                if (simdi >= girisZamani && simdi < cikisZamani)
+                                {
+                                    durum = "Muayenede";
+                                }
+
+                                // Geçmişteki randevuları dışarıda tut, sadece geçerli ve gelecekteki randevular göster
+                                if (girisZamani >= simdi)
+                                {
+                                    <tr>
+                                        <td>@randevu.Hasta?.Adi @randevu.Hasta?.Soyadi</td>
+                                        <td>@randevu.RandevuTarihi.ToString("HH:mm")</td>
+                                        <td>
+                                            <span class="badge @((durum == "Muayenede") ? "bg-success" : "bg-warning text-dark")">
+                                                @durum
+                                            </span>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="alert alert-warning text-center">Bugüne ait randevu bulunamadı.</div>
+    }
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Her 60 saniyede bir tabloyu güncelle
+        setInterval(function () {
+            $.get('@Url.Action("SıraGörüntüle", "PatientRow")', function (data) {
+                var yeniHtml = $(data).find('#randevuTabloları').html();
+                $('#randevuTabloları').html(yeniHtml);
+            });
+        }, 60000); // 60 saniye
+    </script>
+}
+
+
+
+
+
+
+@* @model List<List<RandevuYonetimSistemi.Models.Appointment>>
+
+@{
+    ViewData["Title"] = "Muayene Sırası";
+    var simdi = DateTime.Now;
+}
+
+<!-- Sayfa başlığı görselleştirilmiş -->
+<div class="text-center bg-primary text-white py-4 mb-4 rounded shadow">
+    <h1 class="display-5"><i class="bi bi-clipboard2-pulse-fill me-2"></i>Muayene Sırası</h1>
+</div>
+
+<div id="randevuTabloları" class="container">
+    @if (Model != null && Model.Any())
+    {
+        foreach (var randevular in Model)
+        {
+            var doktor = randevular.FirstOrDefault()?.Doctor;
+            if (doktor == null) { continue; }
+
+            <div class="card mb-4 shadow">
+                <div class="card-header bg-info text-white fw-bold">
+                    Doktor: @doktor.Adi @doktor.Soyadi
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Hasta Adı</th>
+                                <th>Randevu Saati</th>
+                                <th>Durum</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var randevu in randevular)
+                            {
+                                var girisZamani = randevu.RandevuTarihi;
+                                var cikisZamani = girisZamani.AddMinutes(20);
+                                var durum = (simdi >= girisZamani && simdi < cikisZamani) ? "Muayenede" : "Sıradaki";
+
+                                <tr>
+                                    <td>@randevu.Hasta?.Adi @randevu.Hasta?.Soyadi</td>
+                                    <td>@randevu.RandevuTarihi.ToString("HH:mm")</td>
+                                    <td>
+                                        <span class="badge @((durum == "Muayenede") ? "bg-success" : "bg-warning text-dark")">
+                                            @durum
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="alert alert-warning text-center">Bugüne ait randevu bulunamadı.</div>
+    }
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Her 60 saniyede bir tabloyu güncelle
+        setInterval(function () {
+            $.get('@Url.Action("SıraGörüntüle", "PatientRow")', function (data) {
+                var yeniHtml = $(data).find('#randevuTabloları').html();
+                $('#randevuTabloları').html(yeniHtml);
+            });
+        }, 60000); // 60 saniye
+    </script>
+}
+
+<!-- Bootstrap icon desteği (ikon için) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+ 
+ *@

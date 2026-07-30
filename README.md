@@ -2,13 +2,13 @@
 
 ASP.NET Core MVC ve SQL Server kullanılarak geliştirilmiş web tabanlı bir diş kliniği randevu yönetim sistemidir.
 
-Sistem; hastaların bilgilerini doğrulayarak randevu oluşturmasına, uygun doktor ve saatleri görüntülemesine, mevcut randevularını sorgulamasına ve kliniğin doktor, çalışan ve randevu süreçlerini yönetmesine olanak sağlar.
+Uygulama; hastaların e-posta doğrulaması yaptıktan sonra uygun doktor ve saatleri görüntüleyerek randevu oluşturmasını, yaklaşan randevularını sorgulamasını ve klinik personelinin doktor, çalışan ve randevu süreçlerini yönetmesini sağlar.
 
 ## Projenin Amacı
 
-Bu projenin amacı, diş kliniklerinde kullanılan randevu ve personel yönetimi süreçlerini dijital ortama taşımaktır.
+Bu projenin amacı, diş kliniklerinde yürütülen randevu, hasta ve personel yönetimi süreçlerini dijital ortama taşımaktır.
 
-Sistem aşağıdaki temel kullanıcı gruplarını destekler:
+Sistem temel olarak aşağıdaki kullanıcı gruplarına yönelik hazırlanmıştır:
 
 - Hastalar
 - Doktorlar
@@ -20,39 +20,41 @@ Sistem aşağıdaki temel kullanıcı gruplarını destekler:
 ### Hasta İşlemleri
 
 - Hasta bilgileriyle kayıt oluşturma
-- E-posta üzerinden doğrulama kodu gönderme
-- Doğrulama sonrasında randevu alma
-- Doktor seçimi
-- Tarih ve uygun saat seçimi
-- Dolu randevu saatlerinin otomatik olarak engellenmesi
-- T.C. kimlik numarasıyla mevcut randevuları sorgulama
-- Randevu bilgilerinin e-posta ile gönderilmesi
+- E-posta adresine doğrulama kodu gönderme
+- Doğrulama sonrasında randevu oluşturma
+- Aktif doktorları görüntüleme
+- Doktor ve tarih seçimi
+- Seçilen tarihteki uygun saatleri görüntüleme
+- T.C. kimlik numarasıyla yaklaşan randevuları sorgulama
+- Oluşturulan randevu bilgilerini e-posta ile gönderme
 
 ### Randevu Yönetimi
 
-- Doktora göre uygun saatlerin hesaplanması
-- Seçilen tarihteki dolu saatlerin listeden çıkarılması
-- Aynı doktora aynı tarih ve saatte birden fazla randevu verilmesinin önlenmesi
-- Randevu tarihi için özel doğrulama kuralları
-- Aktif doktorların randevu ekranında listelenmesi
-- Yaklaşan randevuların görüntülenmesi
+- Doktora ve tarihe göre uygun saatleri hesaplama
+- Dolu randevu saatlerini otomatik olarak listeden çıkarma
+- Aynı doktora aynı tarih ve saatte ikinci randevu verilmesini engelleme
+- Randevu tarihi için doğrulama kuralları
+- Aktif doktorları randevu ekranında listeleme
+- Yaklaşan randevuları görüntüleme
+- Randevuları tarih ve saate göre sıralama
 
 ### Muayene Sırası
 
-- Güncel ve yaklaşan randevuların görüntülenmesi
-- Doktor bazlı hasta sıralarının oluşturulması
-- Randevuların tarih ve saate göre sıralanması
-- Her doktor için sıradaki hastaların listelenmesi
+- Güncel ve yaklaşan randevuları görüntüleme
+- Doktor bazlı hasta sırası oluşturma
+- Randevuları tarih ve saate göre sıralama
+- Her doktor için sıradaki hastaları listeleme
 
 ### Yönetici Paneli
 
 - Yönetici girişi
 - Session tabanlı oturum yönetimi
+- Yönetici çıkış işlemi
 - Doktorları listeleme
 - Doktor ekleme, güncelleme ve silme
 - Klinik çalışanlarını listeleme
 - Çalışan ekleme, güncelleme ve silme
-- Aktif veya pasif personel durumunu yönetme
+- Doktor ve çalışanların aktiflik durumunu yönetme
 
 ## Kullanılan Teknolojiler
 
@@ -67,7 +69,6 @@ Sistem aşağıdaki temel kullanıcı gruplarını destekler:
 - HTML
 - CSS
 - JavaScript
-- AJAX
 - Bootstrap
 - SMTP e-posta servisi
 - Session yönetimi
@@ -77,56 +78,65 @@ Sistem aşağıdaki temel kullanıcı gruplarını destekler:
 Proje, ASP.NET Core MVC mimarisine göre geliştirilmiştir.
 
 ```text
-RandevuYonetimSistemi/
+.Net-ile-gelistirilmis-SQL-destekli-Randevu-YonetimSistemi/
 │
-├── Controllers/
-│   ├── AdminController.cs
-│   ├── BaseController.cs
-│   ├── DoctorController.cs
-│   ├── EmployeController.cs
-│   ├── HomeController.cs
-│   ├── PatientRowController.cs
-│   └── SickPersonController.cs
+├── README.md
+├── .gitignore
 │
-├── Data/
-│   └── RandevuDbContext.cs
-│
-├── Migrations/
-│
-├── Models/
-│   ├── Admin.cs
-│   ├── AdminPanelViewModel.cs
-│   ├── Appointment.cs
-│   ├── Doctor.cs
-│   ├── Employe.cs
-│   ├── PatientRow.cs
-│   ├── Person.cs
-│   └── SickPerson.cs
-│
-├── Services/
-│   ├── EmailService.cs
-│   ├── EmailSettings.cs
-│   └── Validation/
-│       └── DateInRangeAttribute.cs
-│
-├── Views/
-│   ├── Admin/
-│   ├── Doctor/
-│   ├── Employe/
-│   ├── Home/
-│   ├── PatientRow/
-│   ├── Shared/
-│   └── SickPerson/
-│
-├── wwwroot/
-├── appsettings.json
-├── Program.cs
-└── RandevuYonetimSistemi.csproj
+└── RandevuYonetimSistemi/
+    │
+    ├── RandevuYonetimSistemi.sln
+    │
+    └── RandevuYonetimSistemi/
+        │
+        ├── Controllers/
+        │   ├── AdminController.cs
+        │   ├── BaseController.cs
+        │   ├── DoctorController.cs
+        │   ├── EmployeController.cs
+        │   ├── HomeController.cs
+        │   ├── PatientRowController.cs
+        │   └── SickPersonController.cs
+        │
+        ├── Data/
+        │   └── RandevuDbContext.cs
+        │
+        ├── Migrations/
+        │
+        ├── Models/
+        │   ├── Admin.cs
+        │   ├── AdminPanelViewModel.cs
+        │   ├── Appointment.cs
+        │   ├── Doctor.cs
+        │   ├── Employe.cs
+        │   ├── PatientRow.cs
+        │   ├── Person.cs
+        │   └── SickPerson.cs
+        │
+        ├── Services/
+        │   ├── EmailService.cs
+        │   ├── EmailSettings.cs
+        │   └── Validation/
+        │       └── DateInRangeAttribute.cs
+        │
+        ├── Views/
+        │   ├── Admin/
+        │   ├── Doctor/
+        │   ├── Employe/
+        │   ├── Home/
+        │   ├── PatientRow/
+        │   ├── Shared/
+        │   └── SickPerson/
+        │
+        ├── wwwroot/
+        ├── appsettings.json
+        ├── Program.cs
+        └── RandevuYonetimSistemi.csproj
 ```
 
 ## Veritabanı Yapısı
 
-Sistemde Entity Framework Core Code First yaklaşımı kullanılmaktadır.
+Projede Entity Framework Core kullanılarak SQL Server veritabanı bağlantısı sağlanmaktadır.
 
 Temel veritabanı tabloları:
 
@@ -134,20 +144,21 @@ Temel veritabanı tabloları:
 |---|---|
 | `Admins` | Yönetici hesaplarını tutar |
 | `Doctors` | Doktor bilgilerini tutar |
-| `Employes` | Klinik çalışanlarını tutar |
+| `Employes` | Klinik çalışanlarının bilgilerini tutar |
 | `SickPeople` | Hasta bilgilerini tutar |
 | `Appointments` | Oluşturulan randevuları tutar |
 
-Hasta T.C. kimlik numarası üzerinde benzersiz indeks kullanılmaktadır. Böylece aynı hasta için tekrar eden kayıtların önüne geçilir.
+Hasta T.C. kimlik numarası alanında benzersiz indeks kullanılmaktadır. Böylece aynı T.C. kimlik numarasıyla tekrar eden hasta kayıtlarının oluşturulması engellenir.
 
 ## Gereksinimler
 
 Projeyi çalıştırmak için aşağıdaki bileşenler gereklidir:
 
 - .NET 9 SDK
-- Visual Studio 2022 veya Visual Studio Code
+- .NET 9 destekleyen Visual Studio veya Visual Studio Code
 - SQL Server veya SQL Server LocalDB
 - Entity Framework Core araçları
+- Git
 
 ## Kurulum
 
@@ -174,7 +185,7 @@ dotnet restore
 
 `appsettings.json` dosyasındaki bağlantı cümlesini kendi SQL Server yapılandırmanıza göre düzenleyin.
 
-SQL Server LocalDB için örnek:
+SQL Server LocalDB için örnek bağlantı:
 
 ```json
 "ConnectionStrings": {
@@ -182,9 +193,9 @@ SQL Server LocalDB için örnek:
 }
 ```
 
-### 5. E-posta yapılandırmasını düzenleyin
+### 5. E-posta ayarlarını yapılandırın
 
-`appsettings.json` dosyasında güvenlik nedeniyle örnek bilgiler bulunmaktadır:
+`appsettings.json` dosyasında güvenlik amacıyla örnek e-posta bilgileri bulunmaktadır:
 
 ```json
 "EmailSettings": {
@@ -196,14 +207,22 @@ SQL Server LocalDB için örnek:
 }
 ```
 
-Gerçek e-posta adresi ve uygulama şifresi herkese açık bir depoya yüklenmemelidir.
+Uygulamayı çalıştırmadan önce bu alanları kendi SMTP bilgilerinizle düzenleyin.
+
+Gerçek e-posta adresleri, parolalar ve uygulama şifreleri herkese açık GitHub depolarına yüklenmemelidir.
 
 ### 6. Entity Framework aracını yükleyin
 
-Sistemde `dotnet-ef` kurulu değilse:
+Bilgisayarınızda `dotnet-ef` kurulu değilse aşağıdaki komutu çalıştırın:
 
 ```bash
 dotnet tool install --global dotnet-ef
+```
+
+Araç zaten kuruluysa güncellemek için:
+
+```bash
+dotnet tool update --global dotnet-ef
 ```
 
 ### 7. Veritabanını oluşturun
@@ -218,28 +237,30 @@ dotnet ef database update
 dotnet run
 ```
 
-Terminalde gösterilen yerel adresi tarayıcıda açarak sisteme erişebilirsiniz.
+Terminalde gösterilen yerel adresi tarayıcıda açarak uygulamaya erişebilirsiniz.
 
-## Çalışma Akışı
+## Hasta Randevu Akışı
 
-Hasta randevu alma işlemi genel olarak şu sırayla ilerler:
+Hasta randevu alma işlemi aşağıdaki sırayla ilerler:
 
 1. Hasta kişisel bilgilerini girer.
-2. Sisteme girilen e-posta adresine doğrulama kodu gönderilir.
-3. Hasta doğrulama kodunu girer.
-4. Aktif doktorlar listelenir.
+2. Girilen e-posta adresine dört haneli doğrulama kodu gönderilir.
+3. Hasta doğrulama kodunu sisteme girer.
+4. Sistem aktif doktorları listeler.
 5. Hasta doktor ve tarih seçer.
 6. Sistem dolu saatleri çıkararak uygun saatleri gösterir.
-7. Randevu veritabanına kaydedilir.
+7. Seçilen randevu veritabanına kaydedilir.
 8. Randevu bilgileri hastaya e-posta ile gönderilir.
 
 ## Güvenlik Notları
 
 - Gerçek SMTP parolaları GitHub’a yüklenmemelidir.
-- Üretim ortamında parolalar environment variable veya Secret Manager ile saklanmalıdır.
-- Kullanıcı şifreleri düz metin yerine güvenli bir parola özetleme yöntemiyle saklanmalıdır.
-- Hassas veritabanı loglaması üretim ortamında kapalı tutulmalıdır.
-- Örnek kullanıcı bilgileri gerçek kişisel bilgilerle değiştirilmemelidir.
+- Üretim ortamında parolalar environment variable veya .NET Secret Manager ile saklanmalıdır.
+- Yönetici ve kullanıcı şifreleri düz metin yerine güvenli parola özetleme yöntemleriyle saklanmalıdır.
+- `EnableSensitiveDataLogging()` üretim ortamında kapalı tutulmalıdır.
+- Örnek kullanıcı bilgileri gerçek kişisel veriler içermemelidir.
+- Form işlemlerinde yetkilendirme ve CSRF koruması uygulanmalıdır.
+- Üretim ortamında HTTPS kullanılmalıdır.
 
 ## Proje Durumu
 
@@ -247,7 +268,8 @@ Proje eğitim ve portföy amacıyla geliştirilmiştir.
 
 Mevcut sürümde:
 
-- Hasta kayıt ve doğrulama sistemi bulunmaktadır.
+- Hasta kayıt sistemi bulunmaktadır.
+- E-posta doğrulama sistemi bulunmaktadır.
 - Dinamik randevu saati yönetimi bulunmaktadır.
 - Yönetici paneli bulunmaktadır.
 - Doktor ve çalışan yönetimi bulunmaktadır.
@@ -255,16 +277,16 @@ Mevcut sürümde:
 - E-posta bildirim sistemi bulunmaktadır.
 - Muayene sırası görüntüleme sistemi bulunmaktadır.
 
-## Gelecek Geliştirmeler
+## Planlanan Geliştirmeler
 
 - ASP.NET Core Identity entegrasyonu
-- Parolaların güvenli biçimde saklanması
+- Parolaların güvenli şekilde saklanması
 - Rol tabanlı yetkilendirme
 - Randevu iptal etme ve güncelleme
 - Doktor çalışma takvimi yönetimi
-- Klinik ve bölüm desteği
-- SMS bildirimi
-- Responsive arayüz iyileştirmeleri
+- Birden fazla klinik ve bölüm desteği
+- SMS bildirim sistemi
+- Mobil uyumlu arayüz iyileştirmeleri
 - Otomatik testler
 - Docker desteği
 - REST API desteği
